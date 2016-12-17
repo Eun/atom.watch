@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Gameplay';
+    src: url('gameplay.eot');
+    src: url('gameplay.eot?#iefix') format('embedded-opentype'),
+    url('gameplay.woff2') format('woff2'),
+    url('gameplay.woff') format('woff'),
+    url('gameplay.ttf') format('truetype'),
+    url('gameplay.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>atom.watch</title>
+</head>
+<body>
+    <div id="app"></div>
+    <noscript><h1>Sorry, this application needs JavaScript enabled!</h1></noscript>
+    <footer>
+        <a href="//atom.watch">atom.watch</a>
+        <a href="https://salzmann.to">salzmann.to</a>
+        <a href="https://guthub.com/Eun/atom.watch">GitHub</a>
+    </footer>
+    <script src="bundle.js"></script>
+    <script type="text/javascript">
+        function loadCSS(href){
+            var ss = window.document.createElement('link'),
+                ref = window.document.getElementsByTagName('head')[0];
+
+            ss.rel = 'stylesheet';
+            ss.href = href;
+            ss.media = 'only x';
+            ref.parentNode.insertBefore(ss, ref);
+
+            setTimeout(function(){
+              ss.media = 'all';
+            },0);
+          }
+          loadCSS('fonts/futura-light.css');
+          loadCSS('fonts/gameplay.css');
+    </script>
+</body>
+</html>
