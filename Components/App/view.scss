@@ -1,0 +1,153 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    background: #616161;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    
+}
+
+body>div
+{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    color: #fff;
+    font-family: "Futura-Light";
+}
+
+
+h1
+{
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 112px;
+    span
+    {
+        display: inline-block;
+        width: 66px;
+        height: 120px;
+    }
+}
+
+
+
+section
+{
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 10px;
+    a, a:link, a:focus, a:active, a:hover, a:visited
+    {
+        color: #fff;
+        text-decoration: none;
+        padding: 0 4px;
+        display: inline-block;
+    }
+}
+
+section.format
+{
+    font-size: 40px;
+    a, a:link, a:focus, a:active, a:hover, a:visited
+    {
+        width: 60px;
+    }
+}
+
+section.tz
+{
+    font-size: 12px;
+    font-family: 'Gameplay';
+    sup
+    {
+        font-size: 10px;
+    }
+
+    a, a:link, a:focus, a:active, a:hover, a:visited
+    {
+        width: 40px;
+    }
+}
+
+
+section.notice, section.toast
+{
+    font-size: 20px;
+    font-family: 'Futura-Light';
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: visibility 0s linear .25s, opacity .25s ease-in-out;
+    -moz-transition: visibility 0s linear .25s, opacity .25s ease-in-out;
+    -ms-transition: visibility 0s linear .25s, opacity .25s ease-in-out;
+    transition: visibility 0s linear .25s, opacity .25s ease-in-out;
+    font-weight: 100;
+    color: #fff;
+    text-align: center;
+
+    span
+    {
+        display: inline-block;
+        font-size: 20px;
+        background: #000;
+        color: #fff;
+        border-radius: 4px;
+        padding: 8px;
+    }
+
+
+}
+
+section.toast
+{
+    position: relative;
+}
+
+
+@keyframes fadeinout {
+    0% {opacity: 0; visibility: hidden}
+    10% {opacity: 1; visibility: visible}
+    90% {opacity: 1; visibility: visible}
+    100% {opacity: 0; visibility: hidden}
+}
+
+
+section.toast span
+{
+    animation-name: fadeinout;
+    animation-duration: 4s;
+    animation-fill-mode:forwards;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+section.combo
+{
+    height: 10px;
+    overflow: hidden;
+    a, a:link, a:focus, a:active, a:hover, a:visited
+    {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.highlight, .active
+{
+    color: #ffca28 !important;   
+}
+
+.hidden
+{
+    opacity: 0 !important;
+    visibility: hidden;
+}
+
