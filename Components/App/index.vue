@@ -5,7 +5,7 @@ import 'whatwg-fetch';
 export default {
     data() {
         return {
-            tz: 0,
+            tz: '0',
             tzoffset: 0,
             sqrew: 0,
             fmt: 'time',
@@ -15,12 +15,14 @@ export default {
             toasts: [],
             servers: [],
             sync_count: 5,
+            local_tzoffset: new Date().getTimezoneOffset() * 60000,
         }
     },
     created () {
         this.servers = process.env.config.servers;
         this.sync_countc = process.env.config.sync_count;
         this.setParams();
+        this.$router.replace({name: 'app', params: {fmt: this.fmt, tz: this.tz}});
         this.drawTime();
         this.syncTime();
     },
@@ -73,10 +75,59 @@ export default {
             }
         },
 
+        getTZ(offset)
+        {
+            switch (offset) {
+                case 3600000 * -12: {return "-1200"}
+                case 3600000 * -11: {return "-1100"}
+                case 3600000 * -10: {return "-1000"}
+                case 3600000 * -9.5: {return "-0930"}
+                case 3600000 * -9: {return "-0900"}
+                case 3600000 * -8: {return "-0800"}
+                case 3600000 * -7: {return "-0700"}
+                case 3600000 * -6: {return "-0600"}
+                case 3600000 * -5: {return "-0500"}
+                case 3600000 * -4: {return "-0400"}
+                case 3600000 * -3.5: {return "-0330"}
+                case 3600000 * -3: {return "-0300"}
+                case 3600000 * -2: {return "-0200"}
+                case 3600000 * -1: {return "-0100"}
+                case 3600000 * 1: {return "+0100"}
+                case 3600000 * 2: {return "+0200"}
+                case 3600000 * 3: {return "+0300"}
+                case 3600000 * 3.5: {return "+0330"}
+                case 3600000 * 4: {return "+0400"}
+                case 3600000 * 4.5: {return "+0430"}
+                case 3600000 * 5: {return "+0500"}
+                case 3600000 * 5.5: {return "+0530"}
+                case 3600000 * 5.75: {return "+0545"}
+                case 3600000 * 6: {return "+0600"}
+                case 3600000 * 6.5: {return "+0630"}
+                case 3600000 * 7: {return "+0700"}
+                case 3600000 * 8: {return "+0800"}
+                case 3600000 * 8.5: {return "+0830"}
+                case 3600000 * 8.75: {return "+0845"}
+                case 3600000 * 9: {return "+0900"}
+                case 3600000 * 9.5: {return "+0930"}
+                case 3600000 * 10: {return "+1000"}
+                case 3600000 * 10.5: {return "+1030"}
+                case 3600000 * 11: {return "+1100"}
+                case 3600000 * 12: {return "+1200"}
+                case 3600000 * 12.75: {return "+1245"}
+                case 3600000 * 13: {return "+1300"}
+                case 3600000 * 14: {return "+1400"}
+                default:  { return "+0000"; }
+            }
+        },
+
         setParams () {
             if (this.$route.params.tz !== undefined) {
                 this.tz = this.$route.params.tz;
-                this.tzoffset = this.getTZOffset(this.tz);
+                this.tzoffset = this.getTZOffset(this.$route.params.tz);
+            }
+            else {
+                this.tzoffset = this.local_tzoffset * -1;
+                this.tz = this.getTZ(this.tzoffset);
             }
             if (this.$route.params.fmt !== undefined) {
                 this.fmt = this.$route.params.fmt;
@@ -85,7 +136,7 @@ export default {
 
         getDate()
         {
-            return new Date(Date.now() + this.sqrew + this.tzoffset);
+            return new Date(Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset);
         },
 
         drawTime() {
@@ -208,7 +259,12 @@ export default {
                     if (!response[server.field]) {
                         throw "Invalid format";
                     }
-                    resolve(new Date(response[server.field]));
+                    if (server.tzoffset !== 0) {
+                        resolve(new Date(new Date(response[server.field]).getTime() + server.tzoffset));
+                    }
+                    else {
+                        resolve(new Date(response[server.field]));
+                    }
                 })
                 .catch((err) => {
                     reject(err);

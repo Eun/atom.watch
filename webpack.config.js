@@ -8,14 +8,17 @@ var config = {
         {
             url: "http://date.jsontest.com/",
             field: "milliseconds_since_epoch",
+            tzoffset: 0,
         },
         {
             url: "https://h1-atom-watch.herokuapp.com/",
             field: "TimeStamp",
+            tzoffset: 0,
         },
         {
             url: "http://az0-atom-watch.azurewebsites.net/",
             field: "TimeStamp",
+            tzoffset: 0,
         },
     ],
     sync_count: 5
