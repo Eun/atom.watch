@@ -16,7 +16,7 @@ var config = {
             tzoffset: 0,
         },
         {
-            url: "http://az0-atom-watch.azurewebsites.net/",
+            url: "https://az0-atom-watch.azurewebsites.net/",
             field: "TimeStamp",
             tzoffset: 0,
         },
