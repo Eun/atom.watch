@@ -72,7 +72,8 @@ if (process.env.NODE_ENV === 'production-browser' || process.env.NODE_ENV === 'p
     module.exports.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false
+                warnings: false,
+                pure_funcs: [ 'console.debug' ]
             }
         }),
         new webpack.optimize.OccurenceOrderPlugin()

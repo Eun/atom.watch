@@ -17,10 +17,12 @@ export default {
             sync_count: 5,
             local_tzoffset: new Date().getTimezoneOffset() * 60000,
             style: {},
+            debug: false,
         }
     },
     created () {
         this.servers = process.env.config.servers;
+        this.debug = process.env.NODE_ENV === 'debug';
         this.sync_countc = process.env.config.sync_count;
         this.setParams();
         let style = '';
@@ -232,9 +234,10 @@ export default {
             function addSqrew(server, date) {
                 if (date !== null) {
                     let rtt = (Date.now() - t) / 2;
-                    //console.log(`${server.url}: rtt is ${rtt}`);
+                    console.debug(`${server.url}: rtt is ${rtt}`);
+                    console.debug(`sqrew is ${date.getTime()} - ${Date.now()} + ${rtt}`);
                     sqrews.push({
-                        rtt: rtt,
+                        rtt: rtt,   
                         sqrew: date.getTime() - Date.now() + rtt,
                         server: server,
                     });
@@ -266,7 +269,7 @@ export default {
                         return a.sqrew > b.sqrew;
                     });
 
-                    //console.log(sqrews);
+                    console.debug(sqrews);
                     let s = sqrews[Math.floor(sqrews.length / 2)];
                     $this.sqrew = s.sqrew;
                     console.log("took time from " + s.server.url);
@@ -289,10 +292,13 @@ export default {
                     return response.json();
                 })
                 .then((response) => {
+                    console.debug(`${server.url} responded with ${JSON.stringify(response)}`);
                     if (!response[server.field]) {
                         throw "Invalid format";
                     }
-                    if (server.tzoffset !== 0) {
+                    console.debug(`${server.url} tzoffset = ${server.tzoffset}`);
+                    console.debug(`${server.url} parsing ${server.field} = ${response[server.field]}`);
+                    if (server.tzoffset !== undefined && server.tzoffset !== null && server.tzoffset !== 0) {
                         resolve(new Date(new Date(response[server.field]).getTime() + server.tzoffset));
                     }
                     else {
