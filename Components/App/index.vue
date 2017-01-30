@@ -218,7 +218,7 @@ export default {
         // 4. So set the time to ServerTime + rtt/2
         // To get a better rtt time we fire multiple requests after another
         syncTime() {
-            if (this.syncing && this.servers.length > 0) {
+            if (this.syncing || this.servers.length === 0) {
                 return;
             }
             this.syncing = true;
