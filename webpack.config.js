@@ -100,7 +100,6 @@ module.exports.plugins.push(
     }),
     new CopyWebpackPlugin([
         { from: 'index.html' },
-        { from: 'style.css' },
         { from: 'fonts', to: 'fonts' }
     ])
 );

@@ -16,13 +16,28 @@ export default {
             servers: [],
             sync_count: 5,
             local_tzoffset: new Date().getTimezoneOffset() * 60000,
+            style: {},
         }
     },
     created () {
         this.servers = process.env.config.servers;
         this.sync_countc = process.env.config.sync_count;
         this.setParams();
-        this.$router.replace({name: 'app', params: {fmt: this.fmt, tz: this.tz}});
+        let style = '';
+        for (var key in this.style) {
+            if (this.style[key] !== true) {
+                style += `${key}=${this.style[key]};`;
+            }
+            else {
+                style += `${key};`;
+            }
+        }
+        if (style.length > 0) {
+           this.$router.replace({name: 'app-with-style', params: {fmt: this.fmt, tz: this.tz, style: style}});
+        }
+        else {
+            this.$router.replace({name: 'app', params: {fmt: this.fmt, tz: this.tz}});
+        }
         this.drawTime();
         this.syncTime();
     },
@@ -132,6 +147,24 @@ export default {
             if (this.$route.params.fmt !== undefined) {
                 this.fmt = this.$route.params.fmt;
             }
+            if (this.$route.params.style !== undefined) {
+                // parse style
+                let pairs = this.$route.params.style.match(/([\w=]*);?/g);
+                if (pairs !== null) {
+                    //let style = {};
+                    for (var i = 0; i < pairs.length; i++) {
+                        let keyValuePair = pairs[i].match(/(\w*)(=(\w*))?;?/);
+                        if (keyValuePair !== null && keyValuePair[1] !== null && keyValuePair[1].length > 0) {
+                            if (keyValuePair.length === 4 && keyValuePair[3] !== undefined) {
+                                this.style[keyValuePair[1]] = keyValuePair[3];
+                            }
+                            else {
+                                this.style[keyValuePair[1]] = true;
+                            }
+                        }
+                    }
+                }
+            }
         },
 
         getDate()
@@ -140,10 +173,10 @@ export default {
         },
 
         drawTime() {
-            var ut = this.getDate();
+            let ut = this.getDate();
             switch (this.fmt) {
                 case 'time': {
-                    var h,m,s;
+                    let h,m,s;
                     h=ut.getHours();
                     m=ut.getMinutes();
                     s=ut.getSeconds();
@@ -160,7 +193,7 @@ export default {
                     break;
                 }
                 case 'date': {
-                    var h,m,s;
+                    let h,m,s;
                     h=ut.getHours();
                     m=ut.getMinutes();
                     s=ut.getSeconds();

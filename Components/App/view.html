@@ -1,60 +1,68 @@
-<div>
-    <main>
-        <h1 v-tween-chars="time" v-copy-on-click="{value: time, success: function(){toasts.push('Copied')}}"></h1>
-    </main>
-    <section class="format">
-        <router-link :to="{name: 'app', params: {fmt: 'unix', tz: tz}}" v-bind:class="{active: fmt == 'unix'}">unix</router-link>
-        <router-link :to="{name: 'app', params: {fmt: 'time', tz: tz}}" v-bind:class="{active: fmt == 'time'}">time</router-link>
-        <router-link :to="{name: 'app', params: {fmt: 'date', tz: tz}}" v-bind:class="{active: fmt == 'date'}">date</router-link>
-    </section>
+<div v-bind:class="{embed: style.embed}" v-bind:style="{ color: style.color ? ('#' + style.color) : inherit, background: style.background ? ('#' + style.background) : inherit }">
+    <div>
+        <main>
+            <h1 v-tween-chars="{value: time, color: style.color ? ('#' + style.color) : '#fff'}" v-copy-on-click="{value: time, success: function(){toasts.push('Copied')}}"></h1>
+        </main>
+        <section class="format">
+            <router-link :to="{name: 'app', params: {fmt: 'unix', tz: tz}}" v-bind:class="{active: fmt == 'unix'}">unix</router-link>
+            <router-link :to="{name: 'app', params: {fmt: 'time', tz: tz}}" v-bind:class="{active: fmt == 'time'}">time</router-link>
+            <router-link :to="{name: 'app', params: {fmt: 'date', tz: tz}}" v-bind:class="{active: fmt == 'date'}">date</router-link>
+        </section>
 
-    <section class="tz">
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1200'}}" v-bind:class="{active: tz == '-1200'}">-12<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1100'}}" v-bind:class="{active: tz == '-1100'}">-11<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1000'}}" v-bind:class="{active: tz == '-1000'}">-10<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0930'}}" v-bind:class="{active: tz == '-0930'}">-09<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0900'}}" v-bind:class="{active: tz == '-0900'}">-09<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0800'}}" v-bind:class="{active: tz == '-0800'}">-08<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0700'}}" v-bind:class="{active: tz == '-0700'}">-07<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0600'}}" v-bind:class="{active: tz == '-0600'}">-06<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0500'}}" v-bind:class="{active: tz == '-0500'}">-05<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0400'}}" v-bind:class="{active: tz == '-0400'}">-04<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0330'}}" v-bind:class="{active: tz == '-0330'}">-03<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0300'}}" v-bind:class="{active: tz == '-0300'}">-03<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0200'}}" v-bind:class="{active: tz == '-0200'}">-02<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0100'}}" v-bind:class="{active: tz == '-0100'}">-01<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0000'}}" v-bind:class="{active: tz == '+0000'}" class="highlight">UTC</router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0100'}}" v-bind:class="{active: tz == '+0100'}">+01<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0200'}}" v-bind:class="{active: tz == '+0200'}">+02<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0300'}}" v-bind:class="{active: tz == '+0300'}">+03<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0330'}}" v-bind:class="{active: tz == '+0330'}">+03<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0400'}}" v-bind:class="{active: tz == '+0400'}">+04<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0430'}}" v-bind:class="{active: tz == '+0430'}">+04<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0500'}}" v-bind:class="{active: tz == '+0500'}">+05<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0530'}}" v-bind:class="{active: tz == '+0530'}">+05<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0545'}}" v-bind:class="{active: tz == '+0545'}">+05<sup>45</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0600'}}" v-bind:class="{active: tz == '+0600'}">+06<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0630'}}" v-bind:class="{active: tz == '+0630'}">+06<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0700'}}" v-bind:class="{active: tz == '+0700'}">+07<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0800'}}" v-bind:class="{active: tz == '+0800'}">+08<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0830'}}" v-bind:class="{active: tz == '+0830'}">+08<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0845'}}" v-bind:class="{active: tz == '+0845'}">+08<sup>45</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0900'}}" v-bind:class="{active: tz == '+0900'}">+09<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0930'}}" v-bind:class="{active: tz == '+0930'}">+09<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1000'}}" v-bind:class="{active: tz == '+1000'}">+10<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1030'}}" v-bind:class="{active: tz == '+1030'}">+10<sup>30</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1100'}}" v-bind:class="{active: tz == '+1100'}">+11<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1200'}}" v-bind:class="{active: tz == '+1200'}">+12<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1245'}}" v-bind:class="{active: tz == '+1245'}">+12<sup>45</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1300'}}" v-bind:class="{active: tz == '+1300'}">+13<sup>00</sup></router-link>
-        <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1400'}}" v-bind:class="{active: tz == '+1400'}">+14<sup>00</sup></router-link>
-    </section>
+        <section class="tz">
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1200'}}" v-bind:class="{active: tz == '-1200'}">-12<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1100'}}" v-bind:class="{active: tz == '-1100'}">-11<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-1000'}}" v-bind:class="{active: tz == '-1000'}">-10<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0930'}}" v-bind:class="{active: tz == '-0930'}">-09<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0900'}}" v-bind:class="{active: tz == '-0900'}">-09<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0800'}}" v-bind:class="{active: tz == '-0800'}">-08<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0700'}}" v-bind:class="{active: tz == '-0700'}">-07<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0600'}}" v-bind:class="{active: tz == '-0600'}">-06<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0500'}}" v-bind:class="{active: tz == '-0500'}">-05<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0400'}}" v-bind:class="{active: tz == '-0400'}">-04<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0330'}}" v-bind:class="{active: tz == '-0330'}">-03<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0300'}}" v-bind:class="{active: tz == '-0300'}">-03<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0200'}}" v-bind:class="{active: tz == '-0200'}">-02<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '-0100'}}" v-bind:class="{active: tz == '-0100'}">-01<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0000'}}" v-bind:class="{active: tz == '+0000'}" class="highlight">UTC</router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0100'}}" v-bind:class="{active: tz == '+0100'}">+01<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0200'}}" v-bind:class="{active: tz == '+0200'}">+02<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0300'}}" v-bind:class="{active: tz == '+0300'}">+03<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0330'}}" v-bind:class="{active: tz == '+0330'}">+03<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0400'}}" v-bind:class="{active: tz == '+0400'}">+04<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0430'}}" v-bind:class="{active: tz == '+0430'}">+04<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0500'}}" v-bind:class="{active: tz == '+0500'}">+05<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0530'}}" v-bind:class="{active: tz == '+0530'}">+05<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0545'}}" v-bind:class="{active: tz == '+0545'}">+05<sup>45</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0600'}}" v-bind:class="{active: tz == '+0600'}">+06<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0630'}}" v-bind:class="{active: tz == '+0630'}">+06<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0700'}}" v-bind:class="{active: tz == '+0700'}">+07<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0800'}}" v-bind:class="{active: tz == '+0800'}">+08<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0830'}}" v-bind:class="{active: tz == '+0830'}">+08<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0845'}}" v-bind:class="{active: tz == '+0845'}">+08<sup>45</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0900'}}" v-bind:class="{active: tz == '+0900'}">+09<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+0930'}}" v-bind:class="{active: tz == '+0930'}">+09<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1000'}}" v-bind:class="{active: tz == '+1000'}">+10<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1030'}}" v-bind:class="{active: tz == '+1030'}">+10<sup>30</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1100'}}" v-bind:class="{active: tz == '+1100'}">+11<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1200'}}" v-bind:class="{active: tz == '+1200'}">+12<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1245'}}" v-bind:class="{active: tz == '+1245'}">+12<sup>45</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1300'}}" v-bind:class="{active: tz == '+1300'}">+13<sup>00</sup></router-link>
+            <router-link :to="{name: 'app', params: {fmt: fmt, tz: '+1400'}}" v-bind:class="{active: tz == '+1400'}">+14<sup>00</sup></router-link>
+        </section>
 
-    <section class="notice" v-bind:class="{hidden: !syncing}">
-        <span>Syncing</span>
-    </section>
+        <section class="notice" v-bind:class="{hidden: !syncing}">
+            <span>Syncing</span>
+        </section>
 
-    <section class="toast">
-        <span v-for="toast in toasts">{{toast}}</span>
-    </section>
+        <section class="toast">
+            <span v-for="toast in toasts">{{toast}}</span>
+        </section>
+    </div>
+
+    <footer>
+        <a href="//atom.watch">atom.watch</a>
+        <a href="https://salzmann.to">salzmann.to</a>
+        <a href="https://github.com/Eun/atom.watch">GitHub</a>
+    </footer>
 </div>

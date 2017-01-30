@@ -10,9 +10,14 @@ export const router = new VueRouter({
   base: __dirname,
   routes: [
     {
-    	name: 'app',
-    	path: '/:fmt/:tz',
-    	component: App
+        name: 'app',
+        path: '/:fmt/:tz',
+        component: App
+    },
+    {
+        name: 'app-with-style',
+        path: '/:fmt/:tz/:style',
+        component: App
     },
   ]
 });
@@ -35,13 +40,13 @@ const chars = {
 
 
 Vue.directive('tween-chars', (el, binding, vnode) => {
-    if (el.children.length < binding.value.length) {
+    if (el.children.length < binding.value.value.length) {
         el.tweenHolders = [];
         el.innerHTML = "";
-        for (let i = 0; i < binding.value.length; i++) {
+        for (let i = 0; i < binding.value.value.length; i++) {
             let holder = document.createElement('span');
-            el.tweenHolders[i] = Raphael(holder, 120, 120).path(chars[binding.value[i]]).attr({
-                "stroke": "#fff",
+            el.tweenHolders[i] = Raphael(holder, 120, 120).path(chars[binding.value.value[i]]).attr({
+                "stroke": binding.value.color ? binding.value.color : "#fff",
                 "stroke-width": "4",
                 "stroke-linecap": "round",
                 "stroke-linejoin": "round",
@@ -54,8 +59,8 @@ Vue.directive('tween-chars', (el, binding, vnode) => {
 
     for (let i = 0; i < el.children.length; i++) {
         let char;
-        if (i < binding.value.length) {
-            char = chars[binding.value[i]];
+        if (i < binding.value.value.length) {
+            char = chars[binding.value.value[i]];
             el.children[i].style.display = "inline-block";
         }
         else {
