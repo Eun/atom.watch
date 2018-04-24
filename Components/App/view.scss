@@ -154,6 +154,7 @@ section.combo
 
 
 div.embed {
+    overflow: hidden;
     .format, .tz, footer {
         display: none;
     }
