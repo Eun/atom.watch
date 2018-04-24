@@ -67,7 +67,12 @@ Vue.directive('tween-chars', (el, binding, vnode) => {
             char = ' ';
             el.children[i].style.display = "none";
         }
-        el.tweenHolders[i] = el.tweenHolders[i].animate({path: char}, 250);
+        el.tweenHolders[i] = el.tweenHolders[i].animate({path: char}, 250).attr({
+            "stroke": binding.value.color ? binding.value.color : "#fff",
+            "stroke-width": "4",
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+        });
     }
 });
 
