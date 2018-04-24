@@ -157,6 +157,13 @@ div.embed {
     .format, .tz, footer {
         display: none;
     }
+    &>div {
+        top: 0;
+        transform: none;
+        -moz-transform: none;
+        -webkit-transform: none;
+        -ms-transform: none;
+    }
 }
 
 footer
