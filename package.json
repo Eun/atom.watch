@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "es6-promise": "~4.0.5",
+    "moment": "^2.22.1",
     "raphael": "^2.2.7",
     "vue": "^2.0.5",
     "vue-material": "^0.2.0",

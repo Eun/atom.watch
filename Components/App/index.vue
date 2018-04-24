@@ -2,6 +2,7 @@
 <style src="./view.scss" lang="sass"></style>
 <script>
 import 'whatwg-fetch';
+let moment = require('moment');
 export default {
     data() {
         return {
@@ -186,12 +187,10 @@ export default {
                     if(m<=9) m="0"+m;
                     if(h<=9) h="0"+h;
                     this.time = h+":"+m+":"+s;
-                    document.title = this.time + " - atom.watch";
                     break;
                 }
                 case 'unix': {
                     this.time = `${Math.floor(ut.getTime() / 1000)}`;
-                    document.title = this.time + " - atom.watch";
                     break;
                 }
                 case 'date': {
@@ -203,9 +202,12 @@ export default {
                     if(m<=9) m="0"+m;
                     if(h<=9) h="0"+h;
                     this.time = ut.getDay() + "." + (ut.getMonth() + 1) + "." + ut.getFullYear() + " " + h + ":" + m + ":" + s;
-                    document.title = this.time + " - atom.watch";
                     break;
                 }
+                default: {
+                    this.time = moment(ut).format(this.fmt);
+                }
+                document.title = this.time + " - atom.watch";
             }
             setTimeout(this.drawTime, 250);
         },
