@@ -2,7 +2,8 @@
 <style src="./view.scss" lang="sass"></style>
 <script>
 import 'whatwg-fetch';
-let moment = require('moment');
+var format = require('date-fns/format')
+var addMilliseconds = require('date-fns/add_milliseconds')
 export default {
     data() {
         return {
@@ -19,6 +20,8 @@ export default {
             local_tzoffset: new Date().getTimezoneOffset() * 60000,
             style: {},
             debug: false,
+            timeStarted: Date.now(),
+            countDownTime: null,
         }
     },
     created () {
@@ -35,14 +38,27 @@ export default {
                 style += `${key};`;
             }
         }
+
         if (style.length > 0) {
-           this.$router.replace({name: 'app-with-style', params: {fmt: this.fmt, tz: this.tz, style: style}});
+            if (this.$route.name === 'timer') {
+                this.$router.replace({name: 'timer-with-style', params: {style: style}});
+            } else if (this.$route.name === 'countdown') {
+                this.$router.replace({name: 'countdown-with-style', params: {time: this.countDownTime, fmt: this.fmt, tz: this.tz, style: style}});
+            } else {
+                this.$router.replace({name: 'app-with-style', params: {fmt: this.fmt, tz: this.tz, style: style}});
+            }
         }
-        else {
+        else if (this.$route.name === null || this.$route.name === undefined) {
             this.$router.replace({name: 'app', params: {fmt: this.fmt, tz: this.tz}});
         }
         this.drawTime();
-        this.syncTime();
+        if (this.$route.name === 'app' || this.$route.name === 'app-with-style' || this.$route.name === 'countdown' || this.$route.name === 'countdown-with-style') {
+            this.syncTime();
+        }
+
+        if (this.$route.name === 'timer' || this.$route.name === 'timer-with-style') {
+            this.timeStarted = Date.now();
+        }
     },
     watch: {
         '$route': 'setParams'
@@ -168,48 +184,90 @@ export default {
                     }
                 }
             }
-        },
-
-        getDate()
-        {
-            return new Date(Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset);
-        },
-
-        drawTime() {
-            let ut = this.getDate();
-            switch (this.fmt) {
-                case 'time': {
-                    let h,m,s;
-                    h=ut.getHours();
-                    m=ut.getMinutes();
-                    s=ut.getSeconds();
-                    if(s<=9) s="0"+s;
-                    if(m<=9) m="0"+m;
-                    if(h<=9) h="0"+h;
-                    this.time = h+":"+m+":"+s;
-                    break;
+            if (this.$route.params.time !== undefined) {
+                let t = parseInt(this.$route.params.time);
+                if (isNaN(t)) {
+                    console.error(`${this.$route.params.time} is not a number`)
+                    return
                 }
-                case 'unix': {
-                    this.time = `${Math.floor(ut.getTime() / 1000)}`;
-                    break;
-                }
-                case 'date': {
-                    let h,m,s;
-                    h=ut.getHours();
-                    m=ut.getMinutes();
-                    s=ut.getSeconds();
-                    if(s<=9) s="0"+s;
-                    if(m<=9) m="0"+m;
-                    if(h<=9) h="0"+h;
-                    this.time = ut.getDay() + "." + (ut.getMonth() + 1) + "." + ut.getFullYear() + " " + h + ":" + m + ":" + s;
-                    break;
-                }
-                default: {
-                    this.time = moment(ut).format(this.fmt);
-                }
-                document.title = this.time + " - atom.watch";
+                this.countDownTime = new Date(t);
             }
-            setTimeout(this.drawTime, 250);
+        },
+
+getColor(c, def) {
+            if (c === undefined || c === null) {
+                if (def === null || def === undefined) {
+                    return "inherit";
+                }
+                return def;
+            }
+            c = c.toString();
+            if (c.substr(0, 1) !== '#') {
+                return '#' + c;
+            }
+            return c;
+        },
+        drawTime() {
+            if (this.$route.name === 'app' || this.$route.name === 'app-with-style') {
+                let ut = new Date(Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset);
+                switch (this.fmt) {
+                    case 'time': {
+                        let h,m,s;
+                        h=ut.getHours();
+                        m=ut.getMinutes();
+                        s=ut.getSeconds();
+                        if(s<=9) s="0"+s;
+                        if(m<=9) m="0"+m;
+                        if(h<=9) h="0"+h;
+                        this.time = h+":"+m+":"+s;
+                        break;
+                    }
+                    case 'unix': {
+                        this.time = `${Math.floor(ut.getTime() / 1000)}`;
+                        break;
+                    }
+                    case 'date': {
+                        let h,m,s;
+                        h=ut.getHours();
+                        m=ut.getMinutes();
+                        s=ut.getSeconds();
+                        if(s<=9) s="0"+s;
+                        if(m<=9) m="0"+m;
+                        if(h<=9) h="0"+h;
+                        this.time = ut.getDay() + "." + (ut.getMonth() + 1) + "." + ut.getFullYear() + " " + h + ":" + m + ":" + s;
+                        break;
+                    }
+                    default: {
+                        this.time = format(ut, this.fmt);
+                    }
+                }
+            } else if (this.$route.name === 'countdown' || this.$route.name === 'countdown-with-style') {
+                let d = this.countDownTime - Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset;
+                let h = Math.floor(d/3600000);
+                d = d - h * 3600000;
+                let m = Math.floor(d/60000);
+                d = d - m * 60000;
+                let s = Math.floor(d/1000);
+                
+                if(s<=9) s="0"+s;
+                if(m<=9) m="0"+m;
+                if(h<=9) h="0"+h;
+                this.time = h + ":" + m + ":" + s;
+            } else { // if timer
+                let d = Date.now() - this.timeStarted;
+                let h = Math.floor(d/3600000);
+                d = d - h * 3600000;
+                let m = Math.floor(d/60000);
+                d = d - m * 60000;
+                let s = Math.floor(d/1000);
+                
+                if(s<=9) s="0"+s;
+                if(m<=9) m="0"+m;
+                if(h<=9) h="0"+h;
+                this.time = h + ":" + m + ":" + s;
+            }
+            document.title = this.time + " - atom.watch";
+            setTimeout(this.drawTime, 1000);
         },
 
         // sync process is like that:

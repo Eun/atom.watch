@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "date-fns": "^1.29.0",
     "es6-promise": "~4.0.5",
-    "moment": "^2.22.1",
     "raphael": "^2.2.7",
     "vue": "^2.0.5",
     "vue-material": "^0.2.0",
@@ -34,9 +34,9 @@
     "webpack-hot-middleware": "~2.13.2"
   },
   "scripts": {
-    "browser": "cross-env NODE_ENV=production-browser node node_modules/webpack/bin/webpack.js --progress --hide-modules",
-    "server": "cross-env NODE_ENV=production-server node node_modules/webpack/bin/webpack.js --progress --hide-modules && cross-env NODE_ENV=production-server node server.js",
-    "dev": "cross-env NODE_ENV=debug node devserver.js"
+    "browser": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=production-browser node node_modules/webpack/bin/webpack.js --progress --hide-modules",
+    "server": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=production-server node node_modules/webpack/bin/webpack.js --progress --hide-modules && node node_modules/cross-env/bin/cross-env.js NODE_ENV=production-server node server.js",
+    "dev": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=debug node devserver.js"
   },
   "author": "Eun",
   "license": "MIT"

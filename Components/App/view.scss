@@ -31,8 +31,6 @@ h1
     span
     {
         display: inline-block;
-        width: 66px;
-        height: 120px;
     }
 }
 
@@ -54,7 +52,7 @@ section
     }
 }
 
-section.format
+section.format, section.timer-ctrl
 {
     font-size: 40px;
     a, a:link, a:focus, a:active, a:hover, a:visited
@@ -152,6 +150,10 @@ section.combo
     visibility: hidden;
 }
 
+.disabled {
+    display: none;
+}
+
 
 div.embed {
     overflow: hidden;
@@ -164,6 +166,18 @@ div.embed {
         -moz-transform: none;
         -webkit-transform: none;
         -ms-transform: none;
+    }
+    .toast, .notice {
+        display: none;
+    }
+}
+
+div.timer {
+    .format, .tz, footer {
+        display: none;
+    }
+    .timer-ctrl {
+        display: block;
     }
 }
 
