@@ -3,7 +3,6 @@
 <script>
 import 'whatwg-fetch';
 var format = require('date-fns/format')
-var addMilliseconds = require('date-fns/add_milliseconds')
 export default {
     data() {
         return {
@@ -45,14 +44,14 @@ export default {
             } else if (this.$route.name === 'countdown') {
                 this.$router.replace({name: 'countdown-with-style', params: {time: this.countDownTime, fmt: this.fmt, tz: this.tz, style: style}});
             } else {
-                this.$router.replace({name: 'app-with-style', params: {fmt: this.fmt, tz: this.tz, style: style}});
+                this.$router.replace({name: 'clock-with-style', params: {fmt: this.fmt, tz: this.tz, style: style}});
             }
         }
-        else if (this.$route.name === null || this.$route.name === undefined) {
-            this.$router.replace({name: 'app', params: {fmt: this.fmt, tz: this.tz}});
+        else if (this.$route.name === null || this.$route.name === undefined || this.$route.name === 'index') {
+            this.$router.replace({name: 'clock', params: {fmt: this.fmt, tz: this.tz}});
         }
         this.drawTime();
-        if (this.$route.name === 'app' || this.$route.name === 'app-with-style' || this.$route.name === 'countdown' || this.$route.name === 'countdown-with-style') {
+        if (this.$route.name === 'clock' || this.$route.name === 'clock-with-style' || this.$route.name === 'countdown' || this.$route.name === 'countdown-with-style') {
             this.syncTime();
         }
 
@@ -190,7 +189,7 @@ export default {
                     console.error(`${this.$route.params.time} is not a number`)
                     return
                 }
-                this.countDownTime = new Date(t);
+                this.countDownTime = new Date(t*1000);
             }
         },
 
@@ -208,7 +207,7 @@ getColor(c, def) {
             return c;
         },
         drawTime() {
-            if (this.$route.name === 'app' || this.$route.name === 'app-with-style') {
+            if (this.$route.name === 'clock' || this.$route.name === 'clock-with-style') {
                 let ut = new Date(Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset);
                 switch (this.fmt) {
                     case 'time': {
@@ -243,15 +242,20 @@ getColor(c, def) {
                 }
             } else if (this.$route.name === 'countdown' || this.$route.name === 'countdown-with-style') {
                 let d = this.countDownTime - Date.now() + this.sqrew + this.tzoffset + this.local_tzoffset;
-                let h = Math.floor(d/3600000);
-                d = d - h * 3600000;
-                let m = Math.floor(d/60000);
-                d = d - m * 60000;
-                let s = Math.floor(d/1000);
-                
-                if(s<=9) s="0"+s;
-                if(m<=9) m="0"+m;
-                if(h<=9) h="0"+h;
+                let h, m, s;
+                if (d > 0) {
+                    h = Math.floor(d/3600000);
+                    d = d - h * 3600000;
+                    m = Math.floor(d/60000);
+                    d = d - m * 60000;
+                    s = Math.floor(d/1000);
+                    
+                    if(s<=9) s="0"+s;
+                    if(m<=9) m="0"+m;
+                    if(h<=9) h="0"+h;
+                } else {
+                    h = m = s = '00';
+                }
                 this.time = h + ":" + m + ":" + s;
             } else { // if timer
                 let d = Date.now() - this.timeStarted;

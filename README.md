@@ -14,7 +14,14 @@ Add your server to `webpack.config.js` and file a pull request.
 ## Customizing
 You can pass custom styles using the url:
 
-https://atom.watch/#/HH:mm/+0200/embed;color=333;background=fff
+https://atom.watch/#/clock/HH:mm/+0200/embed;color=333;background=fff
+
+
+## Countdown
+
+https://atom.watch/#/countdown/32503680000
+
+> UTC timestamp
 
 ## Stopwatch
 

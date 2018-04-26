@@ -3,13 +3,13 @@
         <main>
             <h1 v-tween-chars="{value: time, color: getColor(style.color, '#fff')}" v-copy-on-click="{value: time, success: function(){toasts.push('Copied')}}"></h1>
         </main>
-        <section class="format" v-bind:class="{disabled: $route.name !== 'app' && $route.name !== 'app-with-style'}">
+        <section class="format" v-bind:class="{disabled: $route.name !== 'clock' && $route.name !== 'clock-with-style'}">
             <router-link :to="{name: $route.name, params: {fmt: 'unix', tz: tz}}" v-bind:class="{active: fmt == 'unix'}">unix</router-link>
             <router-link :to="{name: $route.name, params: {fmt: 'time', tz: tz}}" v-bind:class="{active: fmt == 'time'}">time</router-link>
             <router-link :to="{name: $route.name, params: {fmt: 'date', tz: tz}}" v-bind:class="{active: fmt == 'date'}">date</router-link>
         </section>
 
-        <section class="tz" v-bind:class="{disabled: $route.name !== 'app' && $route.name !== 'app-with-style' && $route.name !== 'countdown' && $route.name !== 'countdown-with-style'}">
+        <section class="tz" v-bind:class="{disabled: $route.name !== 'clock' && $route.name !== 'clock-with-style'}">
             <router-link :to="{name: $route.name, params: {fmt: fmt, tz: '-1200'}}" v-bind:class="{active: tz == '-1200'}">-12<sup>00</sup></router-link>
             <router-link :to="{name: $route.name, params: {fmt: fmt, tz: '-1100'}}" v-bind:class="{active: tz == '-1100'}">-11<sup>00</sup></router-link>
             <router-link :to="{name: $route.name, params: {fmt: fmt, tz: '-1000'}}" v-bind:class="{active: tz == '-1000'}">-10<sup>00</sup></router-link>

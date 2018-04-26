@@ -10,13 +10,18 @@ export const router = new VueRouter({
   base: __dirname,
   routes: [
     {
-        name: 'app',
-        path: '/:fmt/:tz',
+        name: 'index',
+        path: '/',
         component: App
     },
     {
-        name: 'app-with-style',
-        path: '/:fmt/:tz/:style',
+        name: 'clock',
+        path: '/clock/:fmt/:tz',
+        component: App
+    },
+    {
+        name: 'clock-with-style',
+        path: '/clock/:fmt/:tz/:style',
         component: App
     },
     {
@@ -31,12 +36,12 @@ export const router = new VueRouter({
     },
     {
         name: 'countdown',
-        path: '/countdown/:time/:fmt/:tz',
+        path: '/countdown/:time',
         component: App
     },
     {
         name: 'countdown-with-style',
-        path: '/countdown/:time/:fmt/:tz/:style',
+        path: '/countdown/:time/:style',
         component: App
     },
   ]
