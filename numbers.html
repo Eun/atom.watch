@@ -15,6 +15,7 @@
         <label for="char">Char</label><input type="text" maxlength="1" value="0" id="char"><br/>
         <label for="Speed">Speed</label><input type="number" value="1000" id="speed"><br/>
         <button id="animateNow">Animate</button>
+        <button id="animateAll">AnimateAll</button>
     </div>
     <script>
         const chars = {
@@ -41,6 +42,9 @@
                   "stroke-linecap": "round",
                   "stroke-linejoin": "round",
                 });
+            var animatePath = [];
+            var animatePathIndex = 0;
+            var animateTimer = null;
 
             function animate(to, speed)
             {
@@ -49,6 +53,36 @@
 
             document.getElementById('animateNow').addEventListener('click', function() {
                 animate(document.getElementById('char').value, parseInt(document.getElementById('speed').value));
+            });
+
+            function animateAll() {
+                if (animatePathIndex >= animatePath.length) {
+                    clearInterval(animateTimer);
+                    animateTimer = null;
+                    return
+                }
+                animate(animatePath[animatePathIndex], parseInt(document.getElementById('speed').value));
+                animatePathIndex++;
+            }
+
+            document.getElementById('animateAll').addEventListener('click', function() {
+                if (animateTimer !== null) {
+                    clearInterval(animateTimer);
+                    animateTimer = null;
+                    return   
+                }
+                var keys = Object.keys(chars);
+                animatePath = [];
+                for (var i = 0; i < keys.length; i++) {
+                    for (var j = 0; j < keys.length; j++) {
+                        animatePath.push(keys[i])
+                        animatePath.push(keys[j])
+                    }
+                }
+                animatePathIndex = 0;
+                animateTimer = setInterval(animateAll, parseInt(document.getElementById('speed').value)*2)
+
+                
             });
         };
         </script>
