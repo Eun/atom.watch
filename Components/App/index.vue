@@ -154,13 +154,12 @@ export default {
         },
 
         setParams () {
-            if (this.$route.params.tz !== undefined) {
-                this.tz = this.$route.params.tz;
-                this.tzoffset = this.getTZOffset(this.$route.params.tz);
-            }
-            else {
+            if (this.$route.params.tz === 'auto' || this.$route.params.tz === undefined) {
                 this.tzoffset = this.local_tzoffset * -1;
                 this.tz = this.getTZ(this.tzoffset);
+            } else {
+                this.tz = this.$route.params.tz;
+                this.tzoffset = this.getTZOffset(this.$route.params.tz);
             }
             if (this.$route.params.fmt !== undefined) {
                 this.fmt = this.$route.params.fmt;
